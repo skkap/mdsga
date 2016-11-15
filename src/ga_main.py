@@ -31,7 +31,7 @@ points = curve_generator.generate(points_amount)
 
 distances = euclidean_distances(points)
 
-# introduce gaps
+# introduce gaps into distance matrix
 
 print('Running for {0} points...'.format(points_amount))
 start = timer()
