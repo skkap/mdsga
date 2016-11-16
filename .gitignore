@@ -109,3 +109,5 @@ ENV/
 
 # *.iml
 # modules.xml
+
+*.png
