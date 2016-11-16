@@ -23,9 +23,9 @@ def clean_directory(directory: str):
 
 def save_scatter_plot(name: str, experiment_dir: str, array_x:list, array_y: list):
     plt.title(name)
-    plt.plot(array_x, array_y, 'ro')
+    plt.plot(array_x, array_y, 'ro', markersize=1)
     plt.grid(True)
-    plt.gca().set_aspect('equal')
+    #plt.gca().set_aspect('equal')
     plt.savefig(experiment_dir + name + '.png')
     plt.close("all")
     plt.clf()

@@ -1,9 +1,11 @@
 import numpy as np
 import math
 
+from space.chromosome.Chromosome import Chromosome
 
-class CurveGenerator:
-    """Generates series of points in shape of curve"""
+
+class ChromosomeGenerator:
+    """Generates series of points in shape of curve (Chromosome-like)"""
 
     def __init__(self, radius: float) -> object:
         """
@@ -11,7 +13,7 @@ class CurveGenerator:
         """
         self.radius = radius
 
-    def generate(self, points_amount: int) -> np.array:
+    def generate(self, points_amount: int) -> Chromosome:
 
         seed = np.random.RandomState()
         start_point = seed.randint(0, 100, 3).astype(np.float)
@@ -31,6 +33,7 @@ class CurveGenerator:
             z = r * math.cos(theta) + points[i - 1][2]
             points[i] = [x, y, z]
 
-        return points
+        chromosome = Chromosome(points)
+        return chromosome
 
 
