@@ -54,6 +54,7 @@ class MDSMyTorgerson(MDSBase):
         Y = V.dot(L)
 
         #return Y, evals
-        #TODO: cut only N dimentions
-        result_chromosome = Chromosome(Y)
+        result_points = np.delete(Y, np.s_[3:], 1)
+
+        result_chromosome = Chromosome(result_points)
         return result_chromosome

@@ -91,6 +91,7 @@ ENV/
 
 # User-specific stuff:
 .idea/workspace.xml
+.idea/misc.xml
 .idea/tasks.xml
 .idea/dictionaries
 .idea/vcs.xml
@@ -107,7 +108,7 @@ ENV/
 ### Intellij Patch ###
 # Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
 
-# *.iml
+*.iml
 # modules.xml
 
 *.png
