@@ -10,6 +10,8 @@ from fitness.PearsonFitnessCalculator import PearsonFitnessCalculator
 from space.chromosome.ChromosomeGenerator import ChromosomeGenerator
 from space.gaps_genetrator.OrderedPercentGapsGenerator import OrderedPercentGapsGenerator
 from space.HiCData import HiCData
+from graph.ShortestDistancesFiller import ShortestDistancesFiller
+
 
 def run(mds_runner, distance_matrix):
 
@@ -40,12 +42,20 @@ rmse_fitness_calculator = RMSEFitnessCalculator()
 pearson_fitness_calculator = PearsonFitnessCalculator()
 chromosome_generator = ChromosomeGenerator(radius=10)
 gaps_generator = OrderedPercentGapsGenerator()
+shortest_distances_filler = ShortestDistancesFiller()
 
-points_amount = 100
+points_amount = 200
 chromosome = chromosome_generator.generate(points_amount)
-hic_data = HiCData(chromosome, gaps_generator, percent_threshold=0)
+hic_data = HiCData(chromosome, gaps_generator, percent_threshold=0.9)
 
-distance_matrix = hic_data.get_distance_matrix_with_gaps()
+distance_matrix_with_gaps = hic_data.get_distance_matrix_with_gaps()
 
-run(smacof_mds_runner, distance_matrix)
-run(my_torgerson_mds_runner, distance_matrix)
+distance_matrix_sd = shortest_distances_filler.fill(distance_matrix_with_gaps)
+
+futm_original = chromosome.distance_matrix.get_flatten_upper_triangular_matrix()
+futm_sd = distance_matrix_sd.get_flatten_upper_triangular_matrix()
+file_name = os.path.basename(__file__) + '_sd'
+files_helper.save_scatter_plot(file_name, './', futm_original, futm_sd)
+
+run(smacof_mds_runner, distance_matrix_sd)
+run(my_torgerson_mds_runner, distance_matrix_sd)

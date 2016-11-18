@@ -1,19 +1,12 @@
 import numpy as np
-
+from space.DistanceMatrix import DistanceMatrix
 
 class ShortestDistancesFiller:
 
-    def fill(self, distance_matrix_with_gaps: np.array) -> np.array:
+    def fill(self, distance_matrix_with_gaps: DistanceMatrix) -> DistanceMatrix:
 
-        if distance_matrix_with_gaps.ndim != 2:
-            raise ValueError('"distance_matrix_with_gaps" should have just two dimensions.')
-        if distance_matrix_with_gaps.shape[0] != distance_matrix_with_gaps.shape[1]:
-            raise ValueError('"distance_matrix_with_gaps" should be square matrix.')
-        if distance_matrix_with_gaps.shape[0] < 3:
-            raise ValueError('"distance_matrix_with_gaps" should be at least 3*3.')
-
-        distance_matrix_with_gaps_filled = self.floyd_warshall(distance_matrix_with_gaps)
-        return distance_matrix_with_gaps_filled
+        distance_matrix_with_gaps_filled = self.floyd_warshall(distance_matrix_with_gaps.distance_matrix_nparray)
+        return DistanceMatrix(distance_matrix_with_gaps_filled)
 
     def floyd_warshall(self, distance_matrix_with_gaps: np.array) -> np.array:
         """Solves all pair shortest path via Floyd Warshall Algrorithm"""

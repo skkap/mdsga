@@ -13,7 +13,7 @@ class TestDistanceMatrix(TestCase):
             [3, 0, 0],
             [4, 0, 0],
         ])
-        distance_matrix = DistanceMatrix(points)
+        distance_matrix = DistanceMatrix.from_points(points)
 
         correct_distance_matrix = np.array([
             [0, 1, 2, 3],
@@ -31,7 +31,7 @@ class TestDistanceMatrix(TestCase):
             [3, 0, 0],
             [4, 0, 0],
         ])
-        distance_matrix = DistanceMatrix(points)
+        distance_matrix = DistanceMatrix.from_points(points)
         flatten_upper_triangular_matrix = distance_matrix.get_flatten_upper_triangular_matrix()
 
         correct_flatten_upper_triangular_matrix = [1.0, 2.0, 3.0, 1.0, 2.0, 1.0]

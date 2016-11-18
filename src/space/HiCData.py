@@ -1,28 +1,30 @@
 import numpy as np
 import math
-from sklearn.metrics import euclidean_distances
 
 from space.gaps_genetrator.GapsGeneratorBase import GapsGeneratorBase
-
+from space.chromosome.Chromosome import Chromosome
+from space.DistanceMatrix import DistanceMatrix
 
 class HiCData:
 
-    def __init__(self, points: np.array, gaps_generator: GapsGeneratorBase, percent_threshold: float):
+    def __init__(self, chromosome: Chromosome, gaps_generator: GapsGeneratorBase, percent_threshold: float):
 
-        if points.ndim != 2:
-            raise ValueError('"points" should have two dimensions.')
-        if points.shape[0] < 3:
-            raise ValueError('"points" should contain at least 3 points.')
-        if points.shape[1] != 3:
-            raise ValueError('"points" should be X*3 (x,y,z).')
         if percent_threshold < 0 or percent_threshold > 1:
             raise ValueError('"percent_threshold" should be between 0 and 1.')
 
-        self.full_distance_matrix = euclidean_distances(points)
-        self.not_gaps = gaps_generator.get_not_gaps(self.full_distance_matrix, percent_threshold)
+        self.full = percent_threshold == 0
+        self.chromosome = chromosome
+        if not self.full:
+            self.not_gaps = gaps_generator.get_not_gaps(chromosome.distance_matrix.distance_matrix_nparray, percent_threshold)
+
+    @property
+    def size(self):
+        return self.chromosome.size
 
     def get_distance_matrix_with_gaps(self) -> np.array:
-        distance_matrix_with_gaps = np.copy(self.full_distance_matrix)
+        distance_matrix_with_gaps = np.copy(self.chromosome.distance_matrix.distance_matrix_nparray)
+        if self.full:
+            return DistanceMatrix(distance_matrix_with_gaps)
         n = distance_matrix_with_gaps.shape[0]
         for x in range(0, n):
             for y in range(x + 1, n):
@@ -34,4 +36,4 @@ class HiCData:
                 if is_gap:
                     distance_matrix_with_gaps[x, y] = math.inf
                     distance_matrix_with_gaps[y, x] = math.inf
-        return distance_matrix_with_gaps
+        return DistanceMatrix(distance_matrix_with_gaps)
