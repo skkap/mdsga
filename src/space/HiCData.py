@@ -21,7 +21,7 @@ class HiCData:
     def size(self):
         return self.chromosome.size
 
-    def get_distance_matrix_with_gaps(self) -> np.array:
+    def get_distance_matrix_with_gaps(self) -> DistanceMatrix:
         distance_matrix_with_gaps = np.copy(self.chromosome.distance_matrix.distance_matrix_nparray)
         if self.full:
             return DistanceMatrix(distance_matrix_with_gaps)

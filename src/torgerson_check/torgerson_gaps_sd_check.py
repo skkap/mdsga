@@ -5,8 +5,8 @@ import helpers.files_helper as files_helper
 from mds.MDSTorgerson import MDSTorgerson
 from mds.MDSSmacof import MDSSmacof
 from mds.MDSMyTorgerson import MDSMyTorgerson
-from fitness.RMSEFitnessCalculator import RMSEFitnessCalculator
-from fitness.PearsonFitnessCalculator import PearsonFitnessCalculator
+from fitness.RMSEScoreCalculator import RMSEScoreCalculator
+from fitness.PearsonScoreCalculator import PearsonScoreCalculator
 from space.chromosome.ChromosomeGenerator import ChromosomeGenerator
 from space.gaps_genetrator.OrderedPercentGapsGenerator import OrderedPercentGapsGenerator
 from space.HiCData import HiCData
@@ -38,13 +38,13 @@ def run(mds_runner, distance_matrix):
 smacof_mds_runner = MDSSmacof(dimensions=3)
 my_torgerson_mds_runner = MDSMyTorgerson()
 
-rmse_fitness_calculator = RMSEFitnessCalculator()
-pearson_fitness_calculator = PearsonFitnessCalculator()
+rmse_fitness_calculator = RMSEScoreCalculator()
+pearson_fitness_calculator = PearsonScoreCalculator()
 chromosome_generator = ChromosomeGenerator(radius=10)
 gaps_generator = OrderedPercentGapsGenerator()
 shortest_distances_filler = ShortestDistancesFiller()
 
-points_amount = 200
+points_amount = 100
 chromosome = chromosome_generator.generate(points_amount)
 hic_data = HiCData(chromosome, gaps_generator, percent_threshold=0.9)
 

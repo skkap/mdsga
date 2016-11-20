@@ -5,6 +5,19 @@ from space.DistanceMatrix import DistanceMatrix
 
 
 class TestDistanceMatrix(TestCase):
+    def test___init__points_2D(self):
+        points_2d = np.array([
+            [1, 1],
+        ])
+        with self.assertRaises(ValueError):
+            DistanceMatrix(points_2d)
+
+    def test___init__one_point(self):
+        point = np.array([
+            [1, 1, 1],
+        ])
+        with self.assertRaises(ValueError):
+            DistanceMatrix(point)
 
     def test___init__(self):
         points = np.array([
@@ -37,3 +50,9 @@ class TestDistanceMatrix(TestCase):
         correct_flatten_upper_triangular_matrix = [1.0, 2.0, 3.0, 1.0, 2.0, 1.0]
         self.assertEqual(flatten_upper_triangular_matrix, correct_flatten_upper_triangular_matrix)
 
+    def test_get_flatten_upper_triangular_matrix_except_coordinates(self):
+        self.fail()
+
+
+    def test_get_flatten_upper_triangular_matrix_by_coordinates(self):
+        self.fail()

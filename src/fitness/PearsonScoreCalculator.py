@@ -1,9 +1,9 @@
-from fitness.FitnessCalculatorBase import FitnessCalculatorBase
+from fitness.ScoreCalculatorBase import ScoreCalculatorBase
 from scipy import stats
 
 
-class PearsonFitnessCalculator(FitnessCalculatorBase):
-    """Calculates Fitness using Pearson product-moment correlation coefficient"""
+class PearsonScoreCalculator(ScoreCalculatorBase):
+    """Calculates score using Pearson product-moment correlation coefficient"""
 
     def __str__(self):
         return 'Pearson'

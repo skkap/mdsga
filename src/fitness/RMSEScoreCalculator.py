@@ -1,9 +1,9 @@
-from fitness.FitnessCalculatorBase import FitnessCalculatorBase
+from fitness.ScoreCalculatorBase import ScoreCalculatorBase
 import math
 
 
-class RMSEFitnessCalculator(FitnessCalculatorBase):
-    """Calculates Fitness using Root Mean Square Error Method"""
+class RMSEScoreCalculator(ScoreCalculatorBase):
+    """Calculates score using Root Mean Square Error Method"""
 
     def __str__(self):
         return 'RMSE'
