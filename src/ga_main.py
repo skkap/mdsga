@@ -1,5 +1,5 @@
 import os
-
+import csv
 import math
 
 import helpers.files_helper as files_helper
@@ -50,17 +50,22 @@ original_organism_genome = distance_matrix_sd.get_flatten_upper_triangular_matri
 original_organism = Organism(original_organism_genome)
 initial_population = initial_population_generator.generate(original_organism, 100)
 
+scores = []
 for org in initial_population.organisms:
     score = fitness_calculator.calculate(org.genome)
-    print(score)
+    scores.append(score)
 
-cnt = 0
-for org in initial_population.organisms:
-    futm_original = chromosome.distance_matrix.get_flatten_upper_triangular_matrix()
-    futm_sd = distance_matrix_sd.get_flatten_upper_triangular_matrix()
-    file_name = os.path.basename(__file__) + str(cnt)
-    files_helper.save_scatter_plot(file_name, './', original_organism.genome, org.genome)
-    cnt += 1
+with open('initial_population.csv', 'w') as csvfile:
+    writer = csv.writer(csvfile)
+    writer.writerow(scores)
+
+# cnt = 0
+# for org in initial_population.organisms:
+#     futm_original = chromosome.distance_matrix.get_flatten_upper_triangular_matrix()
+#     futm_sd = distance_matrix_sd.get_flatten_upper_triangular_matrix()
+#     file_name = os.path.basename(__file__) + str(cnt)
+#     files_helper.save_scatter_plot(file_name, './', original_organism.genome, org.genome)
+#     cnt += 1
 
 
 

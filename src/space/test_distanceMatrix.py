@@ -51,8 +51,33 @@ class TestDistanceMatrix(TestCase):
         self.assertEqual(flatten_upper_triangular_matrix, correct_flatten_upper_triangular_matrix)
 
     def test_get_flatten_upper_triangular_matrix_except_coordinates(self):
-        self.fail()
+        distance_matrix_base= np.array([
+            [0, 1, 2, 3],
+            [1, 0, 1, 2],
+            [2, 1, 0, 1],
+            [3, 2, 1, 0],
+        ])
+        distance_matrix = DistanceMatrix(distance_matrix_base)
 
+        coordinates = [[0, 1], [0, 3], [2, 3]]
+        flatten_upper_triangular_matrix_wo_coordinates = distance_matrix.get_flatten_upper_triangular_matrix_except_coordinates(coordinates)
+
+        correct_flatten_upper_triangular_matrix_wo_coordinates = [2.0, 1.0, 2.0]
+        self.assertEqual(flatten_upper_triangular_matrix_wo_coordinates, correct_flatten_upper_triangular_matrix_wo_coordinates)
 
     def test_get_flatten_upper_triangular_matrix_by_coordinates(self):
-        self.fail()
+
+        distance_matrix_base = np.array([
+            [0, 1, 2, 3],
+            [1, 0, 1, 2],
+            [2, 1, 0, 1],
+            [3, 2, 1, 0],
+        ])
+        distance_matrix = DistanceMatrix(distance_matrix_base)
+
+        coordinates = [[0, 1], [0, 3], [2, 3]]
+        flatten_upper_triangular_matrix_by_coordinates = distance_matrix.get_flatten_upper_triangular_matrix_by_coordinates(
+            coordinates)
+
+        correct_flatten_upper_triangular_matrix_by_coordinates = [1.0, 3.0, 1.0]
+        self.assertEqual(flatten_upper_triangular_matrix_by_coordinates, correct_flatten_upper_triangular_matrix_by_coordinates)
