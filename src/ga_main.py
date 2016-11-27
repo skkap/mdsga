@@ -6,7 +6,6 @@ import helpers.files_helper as files_helper
 
 from fitness.FitnessCalculator import FitnessCalculator
 from fitness.RMSEScoreCalculator import RMSEScoreCalculator
-from ga.Population import Population
 from graph.ShortestDistancesFiller import ShortestDistancesFiller
 from mds.MDSMyTorgerson import MDSMyTorgerson
 from space.HiCData import HiCData
@@ -14,10 +13,14 @@ from space.chromosome.ChromosomeGenerator import ChromosomeGenerator
 from space.gaps_genetrator.OrderedPercentGapsGenerator import OrderedPercentGapsGenerator
 from ga.InitialPopulationGenerator import InitialPopulationGenerator
 from ga.Organism import Organism
-
+from ga.Breeder import Breeder
+from ga.crossover.SinglePointCrossoverer import SinglePointCrossoverer
+from ga.Mutator import Mutator
 
 points_amount = 100
 percent_of_gaps = 0.9
+population_size = 10
+
 
 my_torgerson_mds_runner = MDSMyTorgerson()
 rmse_score_calculator = RMSEScoreCalculator()
@@ -48,17 +51,25 @@ fitness_calculator = FitnessCalculator(
 # create initial population
 original_organism_genome = distance_matrix_sd.get_flatten_upper_triangular_matrix_except_coordinates(hic_data.not_gaps)
 original_organism = Organism(original_organism_genome)
-initial_population = initial_population_generator.generate(original_organism, 100)
+initial_population = initial_population_generator.generate(original_organism, population_size)
 
-scores = []
-for org in initial_population.organisms:
-    score = fitness_calculator.calculate(org.genome)
-    scores.append(score)
+crossoverer = SinglePointCrossoverer()
+mutator = Mutator()
+breeder = Breeder(initial_population,
+                  fitness_calculator=fitness_calculator,
+                  crossoverer=crossoverer,
+                  mutator=mutator)
 
-with open('initial_population.csv', 'w') as csvfile:
-    writer = csv.writer(csvfile)
-    writer.writerow(scores)
+for c in range(100):
+    breeder.breed()
+    print(c)
 
+
+
+# with open('initial_population.csv', 'w') as csvfile:
+#     writer = csv.writer(csvfile)
+#     writer.writerow(scores)
+#
 # cnt = 0
 # for org in initial_population.organisms:
 #     futm_original = chromosome.distance_matrix.get_flatten_upper_triangular_matrix()
@@ -69,20 +80,10 @@ with open('initial_population.csv', 'w') as csvfile:
 
 
 
-
-
-
 # futm_original = chromosome.distance_matrix.get_flatten_upper_triangular_matrix()
 # futm_sd = distance_matrix_sd.get_flatten_upper_triangular_matrix()
 # file_name = os.path.basename(__file__) + '_sd'
 # files_helper.save_scatter_plot(file_name, './', futm_original, futm_sd)
-
-
-
-
-
-
-
 
 
 

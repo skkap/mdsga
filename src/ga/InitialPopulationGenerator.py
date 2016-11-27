@@ -3,6 +3,7 @@ import random
 from ga.Organism import Organism
 from ga.Population import Population
 
+
 class InitialPopulationGenerator:
 
     def generate(self, original_organism: Organism, population_size: int):
@@ -13,7 +14,7 @@ class InitialPopulationGenerator:
             new_organism = self.generate_organism(original_organism)
             organisms.append(new_organism)
 
-        population = Population(None, organisms)
+        population = Population(organisms)
         return population
 
     def generate_organism(self, original_organism: Organism):

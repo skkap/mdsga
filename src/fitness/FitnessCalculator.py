@@ -26,7 +26,6 @@ class FitnessCalculator:
         score = self.score_calculator.calculate(after_mds, self.not_gaps_values)
         return score
 
-
     def compose_distance_matrix(self, gaps_values):
         n = self.size
         d = np.zeros((n, n))
