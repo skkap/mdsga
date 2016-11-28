@@ -22,8 +22,8 @@ class Breeder:
         # calculate fitness
         scores = []
         for org in self.current_population.organisms:
-            score = self.fitness_calculator.calculate(org.genome)
-            scores.append(score)
+            org.fitness_score = self.fitness_calculator.calculate(org.genome)
+            scores.append(org.fitness_score)
 
         # create probability roulette wheel
         rw_scores = self.construct_roulette_wheel_score_array(scores)
@@ -41,9 +41,13 @@ class Breeder:
             new_organism = self.crossoverer.crossover(parent1, parent2)
             new_generation.append(new_organism)
 
-        # introduce mutations
+        # TODO: introduce mutations
+
+        last_best_score = self.current_population.get_best_fitness()
 
         self.current_population = Population(new_generation)
+
+        return last_best_score
 
     def construct_roulette_wheel_score_array(self, scores):
         s_min = min(scores)
