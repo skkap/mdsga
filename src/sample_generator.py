@@ -10,7 +10,7 @@ from graph.ShortestDistancesFiller import ShortestDistancesFiller
 
 sample_dir = '../samples/'
 
-points_amount = 500
+points_amount = 100
 percent_of_gaps = 0.9
 radius = 10
 

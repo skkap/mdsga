@@ -43,11 +43,13 @@ class Breeder:
 
         # TODO: introduce mutations
 
-        last_best_score = self.current_population.get_best_fitness()
+        best_score = self.current_population.get_best_fitness()
+        worst_score = self.current_population.get_worst_fitness()
+        avg_score = self.current_population.get_average_fitness()
 
         self.current_population = Population(new_generation)
 
-        return last_best_score
+        return [best_score, worst_score, avg_score]
 
     def construct_roulette_wheel_score_array(self, scores):
         s_min = min(scores)
