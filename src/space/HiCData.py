@@ -45,12 +45,15 @@ class HiCData:
         n = distance_matrix_with_gaps.shape[0]
         for x in range(0, n):
             for y in range(x + 1, n):
-                is_gap = True
-                for not_gap in self.not_gaps:
-                    if x == not_gap[0] and y == not_gap[1]:
-                        is_gap = False
-                        continue
-                if is_gap:
+                if not [x, y] in self.not_gaps:
                     distance_matrix_with_gaps[x, y] = math.inf
                     distance_matrix_with_gaps[y, x] = math.inf
+                # is_gap = True
+                # for not_gap in self.not_gaps:
+                #     if x == not_gap[0] and y == not_gap[1]:
+                #         is_gap = False
+                #         continue
+                # if is_gap:
+                #     distance_matrix_with_gaps[x, y] = math.inf
+                #     distance_matrix_with_gaps[y, x] = math.inf
         return DistanceMatrix(distance_matrix_with_gaps)

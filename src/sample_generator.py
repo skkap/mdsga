@@ -2,6 +2,7 @@ import math
 import os
 import numpy as np
 
+import helpers.files_helper as files_helper
 from space.chromosome.ChromosomeGenerator import ChromosomeGenerator
 from space.gaps_genetrator.OrderedPercentGapsGenerator import OrderedPercentGapsGenerator
 from space.HiCData import HiCData
@@ -10,7 +11,7 @@ from graph.ShortestDistancesFiller import ShortestDistancesFiller
 
 sample_dir = '../samples/'
 
-points_amount = 100
+points_amount = 300
 percent_of_gaps = 0.9
 radius = 10
 
@@ -31,15 +32,17 @@ while True:
     distance_matrix_with_gaps = hic_data.get_distance_matrix_with_gaps()
 
     # check integrity
+    print('Generated. Checking integrity...')
     distance_matrix_sd = shortest_distances_filler.fill(distance_matrix_with_gaps)
     if math.inf in distance_matrix_sd.distance_matrix_nparray:
         print('SD could not reconstruct all distances.')
         tries += 1
         continue
 
+    print('Successfully generated')
     hic_data_hash = hic_data.chromosome.get_hash()
     sample_name = '{0}_{1}_{2}_{3}'.format(points_amount, percent_of_gaps, radius, hic_data_hash)
-    print('Successfully generated. Saving "{0}"'.format(sample_name))
+    print('Saving "{0}"'.format(sample_name))
 
     # save structure
     directory = os.path.join(sample_dir, sample_name)
@@ -54,5 +57,8 @@ while True:
 
     not_gaps_path = os.path.join(directory, 'not_gaps.txt')
     np.savetxt(not_gaps_path, hic_data.not_gaps, '%1.1d')
+
+    curve_path = os.path.join(directory, 'curve.png')
+    files_helper.save_3d_plot(sample_name, curve_path, chromosome.points)
 
     break

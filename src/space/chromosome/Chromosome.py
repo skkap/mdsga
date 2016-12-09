@@ -21,5 +21,6 @@ class Chromosome:
     def get_hash(self):
         hash_md5 = hashlib.md5()
         hash_md5.update(self.points.tostring())
+        # hash_md5.update(str(self.points))
         h = hash_md5.hexdigest()
         return h

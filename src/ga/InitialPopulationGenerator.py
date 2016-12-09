@@ -20,6 +20,6 @@ class InitialPopulationGenerator:
     def generate_organism(self, original_organism: Organism):
         new_genome = []
         for gene in original_organism.genome:
-            rand = random.randint(0, int((gene) / 2))
+            rand = random.randint(0, int(gene / 2))
             new_genome.append(gene - rand)
         return Organism(new_genome)

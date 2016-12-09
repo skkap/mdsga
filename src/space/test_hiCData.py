@@ -18,7 +18,7 @@ class TestHiCData(TestCase):
             [4, 4, 4],
         ])
         chromosome = Chromosome(points)
-        hi_c_data = HiCData(chromosome, gaps_generator, percent_threshold=0.5)
+        hi_c_data = HiCData.from_chromosome_with_gaps_generation(chromosome, gaps_generator, percent_threshold=0.5)
 
         distance_matrix_with_gaps = hi_c_data.get_distance_matrix_with_gaps()
         dm = distance_matrix_with_gaps.distance_matrix_nparray

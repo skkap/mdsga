@@ -44,7 +44,7 @@ def save_scatter_plot2(name: str, experiment_dir: str, array1_x:list, array1_y: 
     return
 
 
-def save_3d_plot(name: str, dir: str, points):
+def save_3d_plot(name: str, path: str, points):
     xs = np.array(points[:, 0])
     ys = np.array(points[:, 1])
     zs = np.array(points[:, 2])
@@ -52,7 +52,7 @@ def save_3d_plot(name: str, dir: str, points):
     fig = plt.figure(figsize=(40, 40))
     ax = fig.gca(projection='3d')
     ax.plot(xs, ys, zs)
-    plt.savefig(dir + name + '.png')
+    plt.savefig(path)
     plt.close("all")
     plt.clf()
     return

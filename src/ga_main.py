@@ -12,7 +12,7 @@ from ga.InitialPopulationGenerator import InitialPopulationGenerator
 from ga.Organism import Organism
 from ga.Breeder import Breeder
 from ga.crossover.SinglePointCrossoverer import SinglePointCrossoverer
-from ga.Mutator import Mutator
+from ga.Mutator import MutatorBase
 
 
 population_size = 100
@@ -49,7 +49,7 @@ original_organism = Organism(original_organism_genome)
 initial_population = initial_population_generator.generate(original_organism, population_size)
 
 crossoverer = SinglePointCrossoverer()
-mutator = Mutator()
+mutator = MutatorBase()
 breeder = Breeder(initial_population,
                   fitness_calculator=fitness_calculator,
                   crossoverer=crossoverer,

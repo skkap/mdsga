@@ -2,7 +2,7 @@ import random
 
 from fitness.FitnessCalculator import FitnessCalculator
 from ga.crossover.CrossovererBase import CrossoverrerBase
-from ga.Mutator import Mutator
+from ga.Mutator import MutatorBase
 from ga.Population import Population
 
 class Breeder:
@@ -10,7 +10,7 @@ class Breeder:
     def __init__(self, initial_population: Population,
                  fitness_calculator: FitnessCalculator,
                  crossoverer: CrossoverrerBase,
-                 mutator: Mutator):
+                 mutator: MutatorBase):
         self.current_population = initial_population
         self.fitness_calculator = fitness_calculator
         self.crossoverer = crossoverer
