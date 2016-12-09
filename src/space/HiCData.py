@@ -30,7 +30,7 @@ class HiCData:
         chromosome = Chromosome(points)
 
         not_gaps_path = os.path.join(directory, 'not_gaps.txt')
-        not_gaps = np.loadtxt(not_gaps_path)
+        not_gaps = np.loadtxt(not_gaps_path, 'int')
 
         return cls(chromosome, not_gaps.tolist())
 

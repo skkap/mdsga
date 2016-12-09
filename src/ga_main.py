@@ -1,6 +1,4 @@
-import os
 import csv
-import math
 import time
 
 from fitness.FitnessCalculator import FitnessCalculator
@@ -19,6 +17,7 @@ from ga.Mutator import Mutator
 
 population_size = 100
 generations = 10
+introduce_mutations = False
 
 my_torgerson_mds_runner = MDSMyTorgerson()
 rmse_score_calculator = RMSEScoreCalculator()
@@ -29,7 +28,7 @@ initial_population_generator = InitialPopulationGenerator()
 
 # TODO: load sample
 
-hic_data = HiCData.from_files('../samples/100_0.9_10_d9be2a3ec0687cc15b629d3ef67e87dc/')
+hic_data = HiCData.from_files('../samples/100_0.9_10_1690c8cacc46fc948a55a35b18792310/')
 distance_matrix_with_gaps = hic_data.get_distance_matrix_with_gaps()
 distance_matrix_sd = shortest_distances_filler.fill(distance_matrix_with_gaps)
 

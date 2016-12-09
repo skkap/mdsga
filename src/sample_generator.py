@@ -27,7 +27,7 @@ tries = 0
 while True:
     print('Try {0}'.format(tries))
     chromosome = chromosome_generator.generate(points_amount)
-    hic_data = HiCData(chromosome, gaps_generator, percent_threshold=percent_of_gaps)
+    hic_data = HiCData.from_chromosome_with_gaps_generation(chromosome, gaps_generator, percent_threshold=percent_of_gaps)
     distance_matrix_with_gaps = hic_data.get_distance_matrix_with_gaps()
 
     # check integrity
@@ -41,7 +41,7 @@ while True:
     sample_name = '{0}_{1}_{2}_{3}'.format(points_amount, percent_of_gaps, radius, hic_data_hash)
     print('Successfully generated. Saving "{0}"'.format(sample_name))
 
-    # TODO: save structure
+    # save structure
     directory = os.path.join(sample_dir, sample_name)
     if not os.path.exists(directory):
         os.makedirs(directory)
@@ -53,6 +53,6 @@ while True:
     np.savetxt(dm_path, chromosome.distance_matrix.distance_matrix_nparray)
 
     not_gaps_path = os.path.join(directory, 'not_gaps.txt')
-    np.savetxt(not_gaps_path, hic_data.not_gaps)
+    np.savetxt(not_gaps_path, hic_data.not_gaps, '%1.1d')
 
     break
