@@ -2,7 +2,7 @@ import random
 
 from fitness.FitnessCalculator import FitnessCalculator
 from ga.crossover.CrossovererBase import CrossoverrerBase
-from ga.Mutator import MutatorBase
+from ga.mutator.MutatorBase import MutatorBase
 from ga.Population import Population
 
 class Breeder:
@@ -16,6 +16,7 @@ class Breeder:
         self.crossoverer = crossoverer
         self.mutator = mutator
         self.population_size = initial_population.size
+        self.generation = 0
 
     def breed(self):
 
@@ -48,8 +49,9 @@ class Breeder:
         avg_score = self.current_population.get_average_fitness()
 
         self.current_population = Population(new_generation)
+        self.generation += 1
 
-        return [best_score, worst_score, avg_score]
+        return [self.generation, best_score, worst_score, avg_score]
 
     def construct_roulette_wheel_score_array(self, scores):
         s_min = min(scores)

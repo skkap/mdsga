@@ -29,7 +29,7 @@ class DistanceMatrix:
     def __eq__(self, other):
         """Override the default Equals behavior"""
         if isinstance(other, self.__class__):
-            equal = np.array_equal(self.distance_matrix_nparray, other.distance_matrix_nparray)
+            equal = np.allclose(self.distance_matrix_nparray, other.distance_matrix_nparray)
             return equal
         return False
 

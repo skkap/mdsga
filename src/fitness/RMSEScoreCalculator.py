@@ -8,14 +8,14 @@ class RMSEScoreCalculator(ScoreCalculatorBase):
     def __str__(self):
         return 'RMSE'
 
-    def calculate(self, flatten_distances_original: list, flatten_distances: list) -> float:
-        if len(flatten_distances_original) != len(flatten_distances):
+    def calculate(self, array1: list, array2: list) -> float:
+        if len(array1) != len(array2):
             raise ValueError('Size of both arrays should be the same')
-        n = len(flatten_distances_original)
-        rmse = 0
+        n = len(array1)
+        acc = 0
         for i in range(0, n):
-            rmse += (flatten_distances_original[i] - flatten_distances[i]) ** 2
-        rmse /= len(flatten_distances_original)
-        rmse = math.sqrt(rmse)
+            acc += (array1[i] - array2[i]) ** 2
+        avg = acc / len(array1)
+        rmse = math.sqrt(avg)
 
         return rmse

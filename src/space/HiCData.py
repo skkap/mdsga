@@ -11,7 +11,10 @@ class HiCData:
 
     def __init__(self, chromosome: Chromosome, not_gaps: list, full: bool=False):
         self.chromosome = chromosome
+
+        # list of coordinates of not_gaps sorted by value from smallest
         self.not_gaps = not_gaps
+
         self.full = full
 
     @classmethod
