@@ -2,8 +2,10 @@ from unittest import TestCase
 import numpy as np
 import math
 
-from graph.ShortestDistancesFiller import ShortestDistancesFiller
+from graph.ShortestDistancesFillerMy import ShortestDistancesFillerMy
+from graph.ShortestDistancesFillerIGraph import ShortestDistancesFillerIGraph
 from space.DistanceMatrix import DistanceMatrix
+
 
 class TestShortestDistancesFiller(TestCase):
 
@@ -18,9 +20,13 @@ class TestShortestDistancesFiller(TestCase):
             [3, 0, 7],
             [4, 7, 0],
         ]))
-        sdf = ShortestDistancesFiller()
-        distance_matrix_result = sdf.fill(distance_matrix_with_gaps)
-        self.assertEqual(distance_matrix_result, distance_matrix_correct_solution)
+        sdf = ShortestDistancesFillerMy()
+        distance_matrix_result_my = sdf.fill(distance_matrix_with_gaps)
+        sdf = ShortestDistancesFillerIGraph()
+        distance_matrix_result_igraph = sdf.fill(distance_matrix_with_gaps)
+
+        self.assertEqual(distance_matrix_result_my, distance_matrix_correct_solution)
+        self.assertEqual(distance_matrix_result_igraph, distance_matrix_correct_solution)
 
     def test_fill_2(self):
         distance_matrix_with_gaps = DistanceMatrix(np.array([
@@ -37,6 +43,10 @@ class TestShortestDistancesFiller(TestCase):
             [4, 3, 1, 0, 2],
             [6, 5, 3, 2, 0],
         ]))
-        sdf = ShortestDistancesFiller()
-        distance_matrix_result = sdf.fill(distance_matrix_with_gaps)
-        self.assertTrue(distance_matrix_result, distance_matrix_correct_solution)
+        sdf = ShortestDistancesFillerMy()
+        distance_matrix_result_my = sdf.fill(distance_matrix_with_gaps)
+        sdf = ShortestDistancesFillerIGraph()
+        distance_matrix_result_igraph = sdf.fill(distance_matrix_with_gaps)
+
+        self.assertEqual(distance_matrix_result_my, distance_matrix_correct_solution)
+        self.assertEqual(distance_matrix_result_igraph, distance_matrix_correct_solution)

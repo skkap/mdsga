@@ -6,10 +6,12 @@ from ga.Population import Population
 
 class InitialPopulationGenerator:
 
-    def generate(self, original_organism: Organism, population_size: int):
+    def generate(self, original_organism: Organism, population_size: int, add_original_organism: bool=False):
 
         organisms = []
-        organisms.append(original_organism)
+
+        if add_original_organism:
+            organisms.append(original_organism)
 
         for i in range(0, population_size - 1):
             new_organism = self.generate_organism(original_organism)

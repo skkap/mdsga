@@ -1,7 +1,10 @@
 import numpy as np
+
+from graph.ShortestDistancesFillerBase import ShortestDistancesFillerBase
 from space.DistanceMatrix import DistanceMatrix
 
-class ShortestDistancesFiller:
+
+class ShortestDistancesFillerMy(ShortestDistancesFillerBase):
 
     def fill(self, distance_matrix_with_gaps: DistanceMatrix) -> DistanceMatrix:
 

@@ -30,3 +30,20 @@ class TestHiCData(TestCase):
         self.assertEqual(dm[0][3], math.inf)
         self.assertEqual(dm[1][3], math.inf)
 
+
+    def test_compare_old_and_new_get_distance_matrix_with_gaps(self):
+        gaps_generator = OrderedPercentGapsGenerator()
+        points = np.array([
+            [1, 1, 1],
+            [2, 2, 2],
+            [3, 3, 3],
+            [4, 4, 4],
+        ])
+        chromosome = Chromosome(points)
+        hi_c_data = HiCData.from_chromosome_with_gaps_generation(chromosome, gaps_generator, percent_threshold=0.5)
+
+        distance_matrix_with_gaps_old = hi_c_data.get_distance_matrix_with_gaps_old()
+        distance_matrix_with_gaps = hi_c_data.get_distance_matrix_with_gaps()
+
+        self.assertTrue(distance_matrix_with_gaps_old, distance_matrix_with_gaps)
+

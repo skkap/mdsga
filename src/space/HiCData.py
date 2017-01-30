@@ -41,7 +41,7 @@ class HiCData:
     def size(self):
         return self.chromosome.size
 
-    def get_distance_matrix_with_gaps(self) -> DistanceMatrix:
+    def get_distance_matrix_with_gaps_old(self) -> DistanceMatrix:
         distance_matrix_with_gaps = np.copy(self.chromosome.distance_matrix.distance_matrix_nparray)
         if self.full:
             return DistanceMatrix(distance_matrix_with_gaps)
@@ -51,12 +51,21 @@ class HiCData:
                 if not [x, y] in self.not_gaps:
                     distance_matrix_with_gaps[x, y] = math.inf
                     distance_matrix_with_gaps[y, x] = math.inf
-                # is_gap = True
-                # for not_gap in self.not_gaps:
-                #     if x == not_gap[0] and y == not_gap[1]:
-                #         is_gap = False
-                #         continue
-                # if is_gap:
-                #     distance_matrix_with_gaps[x, y] = math.inf
-                #     distance_matrix_with_gaps[y, x] = math.inf
+        return DistanceMatrix(distance_matrix_with_gaps)
+
+    def get_distance_matrix_with_gaps(self) -> DistanceMatrix:
+        n = self.size
+        distance_matrix_with_gaps = np.zeros((n, n))
+        distance_matrix_with_gaps.fill(math.inf)
+        if self.full:
+            return DistanceMatrix(distance_matrix_with_gaps)
+
+        for i in range(0, n):
+            distance_matrix_with_gaps[i, i] = 0
+
+        for not_gap in self.not_gaps:
+            val = self.chromosome.distance_matrix.distance_matrix_nparray[not_gap[0], not_gap[1]]
+            distance_matrix_with_gaps[not_gap[0], not_gap[1]] = val
+            distance_matrix_with_gaps[not_gap[1], not_gap[0]] = val
+
         return DistanceMatrix(distance_matrix_with_gaps)

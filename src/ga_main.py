@@ -6,7 +6,7 @@ import math
 
 from fitness.FitnessCalculator import FitnessCalculator
 from fitness.RMSEScoreCalculator import RMSEScoreCalculator
-from graph.ShortestDistancesFiller import ShortestDistancesFiller
+from graph.ShortestDistancesFillerIGraph import ShortestDistancesFillerIGraph
 from helpers import files_helper
 from mds.MDSMyTorgerson import MDSMyTorgerson
 from space.HiCData import HiCData
@@ -18,13 +18,13 @@ from ga.crossover.SinglePointCrossoverer import SinglePointCrossoverer
 from ga.mutator.RandomPointMutator import RandomPointMutator
 
 
-population_size = 100
-generations = 10
+population_size = 300
+generations = 300
 introduce_mutations = False # TODO: Implement
 
 my_torgerson_mds_runner = MDSMyTorgerson()
 rmse_score_calculator = RMSEScoreCalculator()
-shortest_distances_filler = ShortestDistancesFiller()
+shortest_distances_filler = ShortestDistancesFillerIGraph()
 initial_population_generator = InitialPopulationGenerator()
 
 # result directory
@@ -35,7 +35,7 @@ if not os.path.exists(result_dir):
 
 # load sample
 
-hic_data = HiCData.from_files('../samples/100_0.9_10_9f33b232970024055214133c551a84f2/')
+hic_data = HiCData.from_files('../samples/100_0.9_10_4175888de6f9e959f3c7d3956daac66f/')
 distance_matrix_with_gaps = hic_data.get_distance_matrix_with_gaps()
 
 # fill in shortest distances

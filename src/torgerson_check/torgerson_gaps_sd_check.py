@@ -10,7 +10,7 @@ from fitness.PearsonScoreCalculator import PearsonScoreCalculator
 from space.chromosome.ChromosomeGenerator import ChromosomeGenerator
 from space.gaps_genetrator.OrderedPercentGapsGenerator import OrderedPercentGapsGenerator
 from space.HiCData import HiCData
-from graph.ShortestDistancesFiller import ShortestDistancesFiller
+from graph.ShortestDistancesFillerIGraph import ShortestDistancesFillerIGraph
 
 
 def run(mds_runner, distance_matrix):
