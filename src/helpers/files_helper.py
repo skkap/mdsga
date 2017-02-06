@@ -1,9 +1,6 @@
 import os
-import matplotlib.mlab as mlab
 from matplotlib import pyplot as plt
 import numpy as np
-from mpl_toolkits.mplot3d import Axes3D
-
 
 
 def clean_directory(directory: str):
@@ -23,18 +20,23 @@ def clean_directory(directory: str):
     return
 
 
-def save_scatter_plot(name: str, experiment_path: str, array_x:list, array_y: list):
+def save_scatter_plot(name: str, experiment_path: str, array_x: list, array_y: list):
+
+    lim = max(array_x + array_y)
+
     plt.title(name)
+    plt.xlim(0, lim)
+    plt.ylim(0, lim)
     plt.plot(array_x, array_y, 'ro', markersize=1)
     plt.grid(True)
-    #plt.gca().set_aspect('equal')
+    plt.gca().set_aspect('equal', adjustable='box')
     plt.savefig(experiment_path)
     plt.close("all")
     plt.clf()
     return
 
 
-def save_scatter_plot2(name: str, experiment_dir: str, array1_x:list, array1_y: list, array2_x:list, array2_y: list):
+def save_scatter_plot2(name: str, experiment_dir: str, array1_x: list, array1_y: list, array2_x: list, array2_y: list):
     plt.title(name)
     plt.plot(array1_x, array1_y, 'ro')
     plt.plot(array2_x, array2_y, 'go')
@@ -46,7 +48,7 @@ def save_scatter_plot2(name: str, experiment_dir: str, array1_x:list, array1_y: 
     return
 
 
-def save_hist(name: str, experiment_path: str, array:list):
+def save_hist(name: str, experiment_path: str, array: list):
     plt.title(name)
     plt.hist(array, 50, normed=False, facecolor='green')
     plt.grid(True)
@@ -55,13 +57,15 @@ def save_hist(name: str, experiment_path: str, array:list):
     plt.clf()
     return
 
-def save_rmse_hist(name: str, experiment_path: str, array1:list, array2:list):
+
+def save_rmse_hist(name: str, experiment_path: str, array1: list, array2: list):
     all_errors = []
     for i in range(0, len(array1)):
         rmse = np.math.sqrt((array1[i] - array2[i]) ** 2)
         all_errors.append(rmse)
     plt.title(name)
-    plt.hist(all_errors, 50, normed=True, facecolor='green')
+    plt.ylim(0, 0.05)
+    n, b, p = plt.hist(all_errors, 50, normed=True, facecolor='green')
     plt.grid(True)
     plt.savefig(experiment_path)
     plt.close("all")

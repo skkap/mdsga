@@ -13,7 +13,7 @@ class InitialPopulationGenerator:
         if add_original_organism:
             organisms.append(original_organism)
 
-        for i in range(0, population_size - 1):
+        while len(organisms) < population_size:
             new_organism = self.generate_organism(original_organism)
             organisms.append(new_organism)
 

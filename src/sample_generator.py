@@ -50,22 +50,22 @@ while True:
     chromosome = chromosome_generator.generate(points_amount)
     end = time.time()
     elapsed = end - start
-    print('Finished in {0} sec.'.format(str(timedelta(seconds=elapsed))))
+    print('Finished in {0} sec.'.format(timedelta(seconds=elapsed)))
 
     print('Generating Hi-C data with gaps...')
     start = time.time()
     hic_data = HiCData.from_chromosome_with_gaps_generation(chromosome, gaps_generator,
-                                                            percent_threshold=1-percent_of_gaps)
+                                                            percent_threshold=percent_of_gaps)
     end = time.time()
     elapsed = end - start
-    print('Finished in {0} sec.'.format(str(timedelta(seconds=elapsed))))
+    print('Finished in {0} sec.'.format(timedelta(seconds=elapsed)))
 
     print('Constructing DM with gaps...')
     start = time.time()
     distance_matrix_with_gaps = hic_data.get_distance_matrix_with_gaps()
     end = time.time()
     elapsed = end - start
-    print('Finished in {0} sec.'.format(str(timedelta(seconds=elapsed))))
+    print('Finished in {0} sec.'.format(timedelta(seconds=elapsed)))
 
     # check integrity
     print('Checking integrity...')
@@ -73,7 +73,7 @@ while True:
     distance_matrix_sd = shortest_distances_filler.fill(distance_matrix_with_gaps)
     end = time.time()
     elapsed = end - start
-    print('Finished in {0} sec.'.format(str(timedelta(seconds=elapsed))))
+    print('Finished in {0} sec.'.format(timedelta(seconds=elapsed)))
     if math.inf not in distance_matrix_sd.distance_matrix_nparray:
         print('Successfully generated with {0} tries!'.format(tries))
         break

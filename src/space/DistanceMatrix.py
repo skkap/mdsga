@@ -33,7 +33,7 @@ class DistanceMatrix:
             return equal
         return False
 
-    def get_flatten_upper_triangular_matrix(self) -> np.array:
+    def get_futm(self) -> np.array:
         """
         :return: Flat upper triangular part of the matrix without diagonal values
         """
@@ -46,7 +46,25 @@ class DistanceMatrix:
                 cur += 1
         return values
 
-    def get_flatten_upper_triangular_matrix_except_coordinates(self, exceptions:list) -> np.array:
+    def get_futm_except_ordered_coordinates(self, exceptions:list) -> np.array:
+        """
+        :param exceptions: list of coordinates not included in result. !! sorted in rows
+        :return: Flat upper triangular part of the matrix without diagonal values and exceptions
+        """
+        n = self.size
+        values = [0] * int(((n * n - n) / 2) - len(exceptions))
+        val_cur = 0
+        exc_cur = 0
+        for x in range(0, n):
+            for y in range(x + 1, n):
+                if exc_cur < len(exceptions) and exceptions[exc_cur] == [x, y]:
+                    exc_cur += 1
+                    continue
+                values[val_cur] = self.distance_matrix_nparray[x, y]
+                val_cur += 1
+        return values
+
+    def get_futm_except_unordered_coordinates(self, exceptions:list) -> np.array:
         """
         :return: Flat upper triangular part of the matrix without diagonal values and exceptions
         """
@@ -61,7 +79,7 @@ class DistanceMatrix:
                 cur += 1
         return values
 
-    def get_flatten_upper_triangular_matrix_by_coordinates(self, coordinates: list) -> np.array:
+    def get_futm_by_coordinates(self, coordinates: list) -> np.array:
         """
         :return: Flat upper triangular part of the matrix by coordinates
         """

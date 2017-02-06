@@ -9,11 +9,13 @@ from space.DistanceMatrix import DistanceMatrix
 
 class HiCData:
 
-    def __init__(self, chromosome: Chromosome, not_gaps: list, full: bool=False):
+    def __init__(self, chromosome: Chromosome, not_gaps: list, full: bool=False, name=''):
         self.chromosome = chromosome
 
         # list of coordinates of not_gaps sorted by value from smallest
         self.not_gaps = not_gaps
+
+        self.name = name
 
         self.full = full
 
@@ -21,21 +23,23 @@ class HiCData:
     def from_chromosome_with_gaps_generation(cls, chromosome: Chromosome, gaps_generator: GapsGeneratorBase, percent_threshold: float):
         if percent_threshold < 0 or percent_threshold > 1:
             raise ValueError('"percent_threshold" should be between 0 and 1.')
-        full = percent_threshold == 0
+        full = (percent_threshold == 0)
         if not full:
             not_gaps = gaps_generator.get_not_gaps(chromosome.distance_matrix.distance_matrix_nparray, percent_threshold)
         return cls(chromosome, not_gaps, full)
 
     @classmethod
-    def from_files(cls, directory: str):
-        points_path = os.path.join(directory, 'points.txt')
-        points = np.loadtxt(points_path)
+    def from_files(cls, path: str):
+        name = os.path.basename(os.path.normpath(path))
+
+        points_path = os.path.join(path, 'points.npy')
+        points = np.load(points_path)
         chromosome = Chromosome(points)
 
-        not_gaps_path = os.path.join(directory, 'not_gaps.txt')
-        not_gaps = np.loadtxt(not_gaps_path, 'int')
+        not_gaps_path = os.path.join(path, 'not_gaps.npy')
+        not_gaps = np.load(not_gaps_path)
 
-        return cls(chromosome, not_gaps.tolist())
+        return cls(chromosome, not_gaps.tolist(), name=name)
 
     @property
     def size(self):

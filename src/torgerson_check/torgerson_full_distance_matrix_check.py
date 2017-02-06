@@ -17,13 +17,13 @@ def run(mds_runner, distance_matrix):
     print('Using {0}'.format(mds_runner.__str__()))
     start = timer()
     chromosome_after_mds = mds_runner.run(distance_matrix)
-    futm_after_mds = chromosome_after_mds.distance_matrix.get_flatten_upper_triangular_matrix()
+    futm_after_mds = chromosome_after_mds.distance_matrix.get_futm()
     end = timer()
     execution_time = end - start
     print('Finished in {0} for {1} points.'.format(execution_time, chromosome.size))
 
     # compare results (original distances - after MDS distances)
-    futm_original = chromosome.distance_matrix.get_flatten_upper_triangular_matrix()
+    futm_original = chromosome.distance_matrix.get_futm()
     rmse_fitness = rmse_fitness_calculator.calculate(futm_original, futm_after_mds)
     print('{0}: {1}'.format(rmse_fitness_calculator.__str__(), rmse_fitness))
     pearson_fitness = pearson_fitness_calculator.calculate(futm_original, futm_after_mds)

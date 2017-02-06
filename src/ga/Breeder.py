@@ -1,5 +1,6 @@
 import random
 
+from exceptions.NoDiversityException import NoDiversityException
 from fitness.FitnessCalculator import FitnessCalculator
 from ga.crossover.CrossovererBase import CrossoverrerBase
 from ga.mutator.MutatorBase import MutatorBase
@@ -26,11 +27,15 @@ class Breeder:
             org.fitness_score = self.fitness_calculator.calculate(org.genome)
             scores.append(org.fitness_score)
 
+        # check diversity
+        if scores.count(scores[0]) == len(scores):
+            raise NoDiversityException
+
         # create probability roulette wheel
         rw_scores = self.construct_roulette_wheel_score_array(scores)
         rw_total = sum(rw_scores)
 
-        # fill offspring pool by crossing over two parents (pick up frim roulette wheel)
+        # fill offspring pool by crossing over two parents (picked up from roulette wheel)
         new_generation = []
         while len(new_generation) != self.population_size:
             parent1_id = self.roulette_wheel_selector(rw_scores, rw_total)
@@ -40,9 +45,8 @@ class Breeder:
             parent1 = self.current_population.organisms[parent1_id]
             parent2 = self.current_population.organisms[parent2_id]
             new_organism = self.crossoverer.crossover(parent1, parent2)
-            new_generation.append(new_organism)
-
-        # TODO: introduce mutations
+            new_organism_with_mutations = self.mutator.introduce(new_organism)
+            new_generation.append(new_organism_with_mutations)
 
         best_score = self.current_population.get_best_fitness()
         worst_score = self.current_population.get_worst_fitness()

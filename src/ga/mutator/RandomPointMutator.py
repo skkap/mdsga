@@ -6,25 +6,23 @@ from ga.Organism import Organism
 
 class RandomPointMutator(MutatorBase):
 
-    def __init__(self, frequency_of_mutations: float, lower_bound: float, upper_bound: float):
+    def __init__(self, frequency_of_mutations: float, initial_organism: Organism, divider: int):
         self.frequency_of_mutations = frequency_of_mutations
-        self.lower_bound = lower_bound
-        self.upper_bound = upper_bound
+        self.initial_organism = initial_organism
+        self.divider = divider
 
         pass
 
     def introduce(self, organism: Organism):
         new_genome = []
 
-        for g in organism.genome:
+        for i, g in enumerate(organism.genome):
             r = random.uniform(0, 1)
             if r < self.frequency_of_mutations:
-                new_genome.append(self.get_mutated_gene())
+                initial_gene = self.initial_organism.genome[i]
+                rand = random.uniform(0, int(initial_gene / self.divider))
+                new_genome.append(initial_gene - rand)
             else:
                 new_genome.append(g)
 
         return Organism(new_genome)
-
-    def get_mutated_gene(self):
-        new_gene = random.uniform(self.lower_bound, self.upper_bound)
-        return new_gene

@@ -101,3 +101,16 @@ class TestOrderedPercentGapsGenerator(TestCase):
         self.assertEqual(not_gaps[0], [0, 1])
         self.assertEqual(not_gaps[1], [0, 2])
 
+
+    def test_get_not_gaps_check_order(self):
+        gaps_generator = OrderedPercentGapsGenerator()
+        distance_matrix = np.array([
+            [0, 3, 2],
+            [0, 0, 1],
+            [0, 0, 0]
+        ])
+
+        not_gaps = gaps_generator.get_not_gaps(distance_matrix, 0.5)
+        self.assertEqual(len(not_gaps), 2)
+        self.assertEqual(not_gaps[0], [0, 2])
+        self.assertEqual(not_gaps[1], [1, 2])

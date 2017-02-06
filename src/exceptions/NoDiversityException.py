@@ -1,0 +1,5 @@
+
+
+class NoDiversityException(Exception):
+    pass
+
