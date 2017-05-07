@@ -1,6 +1,8 @@
 import os
 from matplotlib import pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
+import seaborn as sns
 
 
 def clean_directory(directory: str):
@@ -73,7 +75,7 @@ def save_rmse_hist(name: str, experiment_path: str, array1: list, array2: list):
     return
 
 
-def save_3d_plot(name: str, path: str, points):
+def save_3d_plot_dep(name: str, path: str, points):
     xs = np.array(points[:, 0])
     ys = np.array(points[:, 1])
     zs = np.array(points[:, 2])
@@ -81,6 +83,55 @@ def save_3d_plot(name: str, path: str, points):
     fig = plt.figure(figsize=(40, 40))
     ax = fig.gca(projection='3d')
     ax.plot(xs, ys, zs)
+    plt.savefig(path)
+    plt.close("all")
+    plt.clf()
+    return
+
+def save_3d_plot(name: str, path: str, points):
+    xs = np.array(points[:, 0])
+    ys = np.array(points[:, 1])
+    zs = np.array(points[:, 2])
+    plt.title(name)
+    fig = plt.figure(figsize=(40, 40))
+    ax = fig.add_subplot(111, projection='3d')
+
+    # Get rid of the panes
+    ax.w_xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+    ax.w_yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+    ax.w_zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+
+    # Get rid of the spines
+    ax.w_xaxis.line.set_color((1.0, 1.0, 1.0, 0.0))
+    ax.w_yaxis.line.set_color((1.0, 1.0, 1.0, 0.0))
+    ax.w_zaxis.line.set_color((1.0, 1.0, 1.0, 0.0))
+
+    # Get rid of the ticks
+    # ax.set_xticks([])
+    # ax.set_yticks([])
+    # ax.set_zticks([])
+
+    ax.xaxis.set_ticklabels([])
+    ax.yaxis.set_ticklabels([])
+    ax.zaxis.set_ticklabels([])
+
+    ax.set_axis_bgcolor((1, 1, 1))
+
+    line = ax.plot(xs, ys, zs)
+    plt.setp(line, linewidth=8)
+
+    plt.savefig(path)
+    plt.close("all")
+    plt.clf()
+    return
+
+def save_adjastency_matrix(name: str, path: str, data):
+    plt.title(name)
+    fig = plt.figure(figsize=(80, 80))
+    f, ax = plt.subplots(figsize=(11, 9))
+    colors = ["blue", "yellow", "red"]
+    cmap = sns.blend_palette(colors, as_cmap=True)
+    sns.heatmap(data, cmap=cmap, square=True, xticklabels=100, yticklabels=100)
     plt.savefig(path)
     plt.close("all")
     plt.clf()

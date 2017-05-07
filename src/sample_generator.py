@@ -97,8 +97,11 @@ np.save(dm_path, chromosome.distance_matrix.distance_matrix_nparray)
 not_gaps_path = os.path.join(directory, 'not_gaps.npy')
 np.save(not_gaps_path, hic_data.not_gaps)
 
-curve_path = os.path.join(directory, 'curve.png')
+curve_path = os.path.join(directory, 'curve.pdf')
 files_helper.save_3d_plot(sample_name, curve_path, chromosome.points)
+
+adj_path = os.path.join(directory, 'adj.png')
+files_helper.save_adjastency_matrix(sample_name, adj_path, chromosome.distance_matrix.distance_matrix_nparray)
 
 print('Saved!')
 
