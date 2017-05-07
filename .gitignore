@@ -88,33 +88,12 @@ ENV/
 # Rope project settings
 .ropeproject
 
-
-# User-specific stuff:
-.idea/workspace.xml
-.idea/misc.xml
-.idea/tasks.xml
-.idea/dictionaries
-.idea/vcs.xml
-.idea/jsLibraryMappings.xml
-
-# Sensitive or high-churn files:
-.idea/dataSources.ids
-.idea/dataSources.xml
-.idea/dataSources.local.xml
-.idea/sqlDataSources.xml
-.idea/dynamic.xml
-.idea/uiDesigner.xml
+.idea/
 
 ### Intellij Patch ###
 # Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
 
 *.iml
 # modules.xml
-
-*.png
-*.csv
-
-samples/
-
 
 .DS_Store
