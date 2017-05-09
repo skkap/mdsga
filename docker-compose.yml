@@ -1,0 +1,7 @@
+version: '2'
+
+services:
+
+  mdsga:
+    command: /app/docker-entry.sh
+    build: .

@@ -23,6 +23,7 @@ population_size_default = 100
 generations_default = 10
 mutation_rate_default = 0.001
 check_generations_default = []
+save_images = 0
 
 argparser = argparse.ArgumentParser(description='Generates sample Hi-C experimental data')
 argparser.add_argument('path', metavar='PATH', type=str,
@@ -163,7 +164,7 @@ for c in range(1, generations + 1):
 
 
 # result directory
-exp_name = 'ga_{0}_{1}ps_{2}g'.format(hic_data.name, population_size, generations)
+exp_name = 'ga_{0}_{1}ps_{2}g_{3}m'.format(hic_data.name, population_size, generations, mutation_rate)
 result_dir = '../result/{0}_{1}/'.format(time.strftime("%Y-%m-%d-%H-%M"), exp_name)
 if not os.path.exists(result_dir):
     os.makedirs(result_dir)
@@ -187,26 +188,27 @@ best_organism_full_score = rmse_score_calculator.calculate(futm_best_organism_af
 print('Best organism FULL score: {0:.3f}'.format(best_organism_full_score))
 print('ADAM organism FULL score: {0:.3f}'.format(adam_full_error))
 
+try:
+    # save results
+    adam_before_mds_scatter_path = os.path.join(result_dir, 'adam_before_mds.png')
+    files_helper.save_scatter_plot('Adam before mds', adam_before_mds_scatter_path, futm_original, futm_adam_before_mds)
 
-# save results
-adam_before_mds_scatter_path = os.path.join(result_dir, 'adam_before_mds.png')
-files_helper.save_scatter_plot('Adam before mds', adam_before_mds_scatter_path, futm_original, futm_adam_before_mds)
+    adam_scatter_path = os.path.join(result_dir, 'adam.png')
+    files_helper.save_scatter_plot('Adam', adam_scatter_path, futm_original, adam_after_mds_futm)
 
-adam_scatter_path = os.path.join(result_dir, 'adam.png')
-files_helper.save_scatter_plot('Adam', adam_scatter_path, futm_original, adam_after_mds_futm)
-
-adam_hist_path = os.path.join(result_dir, 'adam_hist.png')
-adam_hist_name = 'ADAM error hist. RMSE: {0:.3f}'.format(adam_full_error)
-files_helper.save_rmse_hist(adam_hist_name, adam_hist_path, futm_original, adam_after_mds_futm)
+    adam_hist_path = os.path.join(result_dir, 'adam_hist.png')
+    adam_hist_name = 'ADAM error hist. RMSE: {0:.3f}'.format(adam_full_error)
+    files_helper.save_rmse_hist(adam_hist_name, adam_hist_path, futm_original, adam_after_mds_futm)
 
 
-best_before_mds_scatter_path = os.path.join(result_dir, 'best_before_mds.png')
-files_helper.save_scatter_plot('Best before mds', best_before_mds_scatter_path, futm_original, futm_best_organism_before_mds)
+    best_before_mds_scatter_path = os.path.join(result_dir, 'best_before_mds.png')
+    files_helper.save_scatter_plot('Best before mds', best_before_mds_scatter_path, futm_original, futm_best_organism_before_mds)
 
-best_scatter_path = os.path.join(result_dir, 'best.png')
-files_helper.save_scatter_plot('Best', best_scatter_path, futm_original, futm_best_organism_after_mds)
+    best_scatter_path = os.path.join(result_dir, 'best.png')
+    files_helper.save_scatter_plot('Best', best_scatter_path, futm_original, futm_best_organism_after_mds)
 
-best_hist_path = os.path.join(result_dir, 'best_hist.png')
-best_hist_name = 'BEST error hist. RMSE: {0:.3f}'.format(best_organism_full_score)
-files_helper.save_rmse_hist(best_hist_name, best_hist_path, futm_original, futm_best_organism_after_mds)
-
+    best_hist_path = os.path.join(result_dir, 'best_hist.png')
+    best_hist_name = 'BEST error hist. RMSE: {0:.3f}'.format(best_organism_full_score)
+    files_helper.save_rmse_hist(best_hist_name, best_hist_path, futm_original, futm_best_organism_after_mds)
+except Exception as e:
+    print('Cannot save images: {0}'.format(e))
