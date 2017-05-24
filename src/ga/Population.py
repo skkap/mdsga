@@ -1,13 +1,32 @@
 import math
 
-from fitness.ScoreCalculatorBase import ScoreCalculatorBase
+import numpy as np
+
+from ga.Organism import Organism
 
 
 class Population:
 
     def __init__(self, organisms: list):
-        self.organisms = organisms
         self.size = len(organisms)
+        if self.size == 0:
+            raise RuntimeError('Empty population')
+        self.organisms = organisms
+        self.genome_size = organisms[0].genome_size
+
+    @classmethod
+    def from_file(cls, path: str):
+        list_of_genomes = np.load(path)
+        organisms = []
+        for genome in list_of_genomes:
+            organisms.append(Organism(genome.tolist()))
+        return cls(organisms)
+
+    def save(self, path: str):
+        data = np.zeros((self.size, self.genome_size))
+        for i in range(self.size):
+            data[i] = self.organisms[i].genome
+        np.save(path, np.array(data))
 
     def get_best_fitness(self):
         best = math.inf

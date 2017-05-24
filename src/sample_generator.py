@@ -1,43 +1,30 @@
-import argparse
 import math
 import os
-import numpy as np
 import time
 from datetime import timedelta
 
+import numpy as np
+import sys
+
 import helpers.files_helper as files_helper
+from ga.InitialPopulationGenerator import InitialPopulationGenerator
+from ga.Organism import Organism
+from graph.ShortestDistancesFillerIGraph import ShortestDistancesFillerIGraph
+from space.HiCData import HiCData
 from space.chromosome.ChromosomeGenerator import ChromosomeGenerator
 from space.gaps_genetrator.OrderedPercentGapsGenerator import OrderedPercentGapsGenerator
-from space.HiCData import HiCData
-from graph.ShortestDistancesFillerIGraph import ShortestDistancesFillerIGraph
-
+from util.command_line import get_sample_generator_params
 
 sample_dir = '../samples/'
 
-radius_default = 10
-percent_of_gaps_default = 0.95
-points_amount_default = 100
-
-argparser = argparse.ArgumentParser(description='Generates sample Hi-C experimental data')
-argparser.add_argument('-r', '--radius', dest='radius', type=float,
-                       default=radius_default, help='radius between each point (+/- radius divaded by 4)')
-argparser.add_argument('-pog', '--percent-of-gaps', dest='percent_of_gaps', type=float,
-                       default=percent_of_gaps_default, help='percent of gaps introduced to distance matrix (0..1)')
-argparser.add_argument('-p', '--points', dest='points_amount', type=int,
-                       default=points_amount_default, help='amount of points in sample model')
-args = argparser.parse_args()
-
-
-points_amount = args.points_amount
-percent_of_gaps = args.percent_of_gaps
-radius = args.radius
+params = get_sample_generator_params()
 
 print('Generating HiC Data...')
-print('Amount of points: {0}'.format(points_amount))
-print('Percent of gaps: {0}'.format(percent_of_gaps))
-print('Radius: {0}'.format(radius))
+print('Amount of points: {0}'.format(params.points_amount))
+print('Percent of gaps: {0}'.format(params.percent_of_gaps))
+print('Radius: {0}'.format(params.radius))
 
-chromosome_generator = ChromosomeGenerator(radius=radius)
+chromosome_generator = ChromosomeGenerator(radius=params.radius)
 gaps_generator = OrderedPercentGapsGenerator()
 shortest_distances_filler = ShortestDistancesFillerIGraph()
 
@@ -47,7 +34,7 @@ while True:
 
     print('Generating chromosome...')
     start = time.time()
-    chromosome = chromosome_generator.generate(points_amount)
+    chromosome = chromosome_generator.generate(params.points_amount)
     end = time.time()
     elapsed = end - start
     print('Finished in {0} sec.'.format(timedelta(seconds=elapsed)))
@@ -55,7 +42,7 @@ while True:
     print('Generating Hi-C data with gaps...')
     start = time.time()
     hic_data = HiCData.from_chromosome_with_gaps_generation(chromosome, gaps_generator,
-                                                            percent_threshold=percent_of_gaps)
+                                                            percent_threshold=params.percent_of_gaps)
     end = time.time()
     elapsed = end - start
     print('Finished in {0} sec.'.format(timedelta(seconds=elapsed)))
@@ -81,7 +68,7 @@ while True:
     tries += 1
 
 hic_data_hash = hic_data.chromosome.get_hash()[:8]
-sample_name = '{0}_{1}_{2}_{3}'.format(points_amount, percent_of_gaps, radius, hic_data_hash)
+sample_name = '{0}_{1}_{2}_{3}'.format(params.points_amount, params.percent_of_gaps, params.radius, hic_data_hash)
 print('Saving "{0}"...'.format(sample_name))
 
 directory = os.path.join(sample_dir, sample_name)
@@ -103,5 +90,18 @@ files_helper.save_3d_plot(sample_name, curve_path, chromosome.points)
 adj_path = os.path.join(directory, 'adj.png')
 files_helper.save_adjastency_matrix(sample_name, adj_path, chromosome.distance_matrix.distance_matrix_nparray)
 
-print('Saved!')
+if not params.save_initial_population:
+    print('Saved!')
+    sys.exit()
 
+initial_organism_genome = distance_matrix_sd.get_futm_except_ordered_coordinates(hic_data.not_gaps)
+initial_organism = Organism(initial_organism_genome)
+initial_population_generator = InitialPopulationGenerator()
+initial_population = initial_population_generator.generate(initial_organism, params.population_size)
+
+initial_organism_path = os.path.join(directory, 'initial_organism.npy')
+initial_organism.save(initial_organism_path)
+
+initial_population_path = os.path.join(directory, 'initial_population.npy')
+initial_population.save(initial_population_path)
+print('Saved!')

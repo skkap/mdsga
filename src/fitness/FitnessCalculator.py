@@ -1,8 +1,6 @@
-import numpy as np
-import time
 import math
 
-from datetime import timedelta
+import numpy as np
 
 from fitness.ScoreCalculatorBase import ScoreCalculatorBase
 from mds.MDSBase import MDSBase
@@ -62,6 +60,3 @@ class FitnessCalculator:
         if gap_cur != len(gaps_values):
             raise ValueError('Did not use all provided values!')
         return DistanceMatrix(d)
-
-
-

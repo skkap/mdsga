@@ -1,10 +1,11 @@
-import numpy as np
 import math
 import os
 
-from space.gaps_genetrator.GapsGeneratorBase import GapsGeneratorBase
-from space.chromosome.Chromosome import Chromosome
+import numpy as np
+
 from space.DistanceMatrix import DistanceMatrix
+from space.chromosome.Chromosome import Chromosome
+from space.gaps_genetrator.GapsGeneratorBase import GapsGeneratorBase
 
 
 class HiCData:
@@ -12,7 +13,7 @@ class HiCData:
     def __init__(self, chromosome: Chromosome, not_gaps: list, full: bool=False, name=''):
         self.chromosome = chromosome
 
-        # list of coordinates of not_gaps sorted by value from smallest
+        # coordinates of not_gaps sorted by value from smallest
         self.not_gaps = not_gaps
 
         self.name = name
@@ -20,12 +21,16 @@ class HiCData:
         self.full = full
 
     @classmethod
-    def from_chromosome_with_gaps_generation(cls, chromosome: Chromosome, gaps_generator: GapsGeneratorBase, percent_threshold: float):
+    def from_chromosome_with_gaps_generation(cls, chromosome: Chromosome, gaps_generator: GapsGeneratorBase,
+                                             percent_threshold: float):
         if percent_threshold < 0 or percent_threshold > 1:
             raise ValueError('"percent_threshold" should be between 0 and 1.')
         full = (percent_threshold == 0)
         if not full:
-            not_gaps = gaps_generator.get_not_gaps(chromosome.distance_matrix.distance_matrix_nparray, percent_threshold)
+            not_gaps = gaps_generator.get_not_gaps(chromosome.distance_matrix.distance_matrix_nparray,
+                                                   percent_threshold)
+        else:
+            not_gaps = None
         return cls(chromosome, not_gaps, full)
 
     @classmethod

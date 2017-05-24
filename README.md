@@ -41,3 +41,15 @@ optional arguments:
   --cg [CHECK_GENERATIONS [CHECK_GENERATIONS ...]]
                         generations on which FULL error is calculated
 ```
+
+### Docker command
+
+```
+docker build -t skkap/mdsga:latest .
+```
+
+```
+sudo docker run --name m1 -d -e SAMPLE_PATH='../samples/200_0.95_10_1/' -e TRIES='3' -v /raidz/skkap/docker/result:/app/result skkap/mdsga /app/docker-entry.sh
+sudo docker run --name m2 -d -e SAMPLE_PATH='../samples/200_0.95_10_2/' -e TRIES='3' -v /raidz/skkap/docker/result:/app/result skkap/mdsga /app/docker-entry.sh
+sudo docker run --name m3 -d -e SAMPLE_PATH='../samples/200_0.95_10_3/' -e TRIES='3' -v /raidz/skkap/docker/result:/app/result skkap/mdsga /app/docker-entry.sh
+```
