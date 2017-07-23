@@ -18,5 +18,5 @@ class MDSSmacof(MDSBase):
 
     def run(self, distance_matrix: DistanceMatrix) -> Chromosome:
         result_points = self.calculator.fit(distance_matrix.distance_matrix_nparray).embedding_
-        result_chromosome = Chromosome(result_points)
+        result_chromosome = Chromosome.from_points(result_points)
         return result_chromosome

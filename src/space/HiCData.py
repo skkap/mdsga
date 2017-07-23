@@ -38,8 +38,14 @@ class HiCData:
         name = os.path.basename(os.path.normpath(path))
 
         points_path = os.path.join(path, 'points.npy')
-        points = np.load(points_path)
-        chromosome = Chromosome(points)
+        dm_path = os.path.join(path, 'dm.npy')
+        if os.path.isfile(points_path):
+            points = np.load(points_path)
+            chromosome = Chromosome.from_points(points)
+        else:
+            dm = np.load(dm_path)
+            size = dm.shape[0]
+            chromosome = Chromosome(np.full((size, 3), 0), size, DistanceMatrix(dm))
 
         not_gaps_path = os.path.join(path, 'not_gaps.npy')
         not_gaps = np.load(not_gaps_path)

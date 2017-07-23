@@ -192,5 +192,13 @@ try:
     best_hist_path = os.path.join(result_dir, 'best_hist.png')
     best_hist_name = 'BEST error hist. RMSE: {0:.3f}'.format(best_organism_full_score)
     files_helper.save_rmse_hist(best_hist_name, best_hist_path, futm_original, futm_best_organism_after_mds)
+
+    best_3d_path = os.path.join(result_dir, 'best_3D.png')
+    best_3d_name = 'BEST 3D'
+    files_helper.save_3d_plot_dep(best_3d_name, best_3d_path, best_organism_after_mds.points)
+
+    adam_3d_path = os.path.join(result_dir, 'adam_3D.png')
+    adam_3d_name = 'ADAM 3D'
+    files_helper.save_3d_plot_dep(adam_3d_name, adam_3d_path, adam_chromosome_after_mds.points)
 except Exception as e:
     print('Cannot save images: {0}'.format(e))

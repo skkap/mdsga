@@ -18,5 +18,5 @@ class MDSTorgerson(MDSBase):
 
     def run(self, distance_matrix: DistanceMatrix) -> Chromosome:
         result_points = self.calculator.fit_transform(distance_matrix.distance_matrix_nparray)
-        result_chromosome = Chromosome(result_points)
+        result_chromosome = Chromosome.from_points(result_points)
         return result_chromosome

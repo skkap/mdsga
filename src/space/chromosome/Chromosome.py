@@ -5,8 +5,13 @@ from space.DistanceMatrix import DistanceMatrix
 
 class Chromosome:
 
-    def __init__(self, points):
+    def __init__(self, points, size, dm):
+        self.points = points
+        self.size = size
+        self.distance_matrix = dm
 
+    @classmethod
+    def from_points(cls, points):
         if points.ndim != 2:
             raise ValueError('"points" should have two dimensions.')
         if points.shape[0] < 3:
@@ -14,9 +19,7 @@ class Chromosome:
         if points.shape[1] != 3:
             raise ValueError('"points" should be X*3 (x,y,z).')
 
-        self.size = points.shape[0]
-        self.points = points
-        self.distance_matrix = DistanceMatrix.from_points(self.points)
+        return cls(points, points.shape[0], DistanceMatrix.from_points(points))
 
     def get_hash(self):
         hash_md5 = hashlib.md5()

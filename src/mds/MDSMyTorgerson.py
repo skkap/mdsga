@@ -56,5 +56,5 @@ class MDSMyTorgerson(MDSBase):
         #return Y, evals
         result_points = np.delete(Y, np.s_[3:], 1)
 
-        result_chromosome = Chromosome(result_points)
+        result_chromosome = Chromosome.from_points(result_points)
         return result_chromosome
