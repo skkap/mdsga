@@ -200,5 +200,13 @@ try:
     adam_3d_path = os.path.join(result_dir, 'adam_3D.png')
     adam_3d_name = 'ADAM 3D'
     files_helper.save_3d_plot_dep(adam_3d_name, adam_3d_path, adam_chromosome_after_mds.points)
+
+    best_xyz_path = os.path.join(result_dir, 'best.obj')
+    best_xyz_name = 'BEST'
+    files_helper.save_obj(best_xyz_name, best_xyz_path, best_organism_after_mds.points)
+
+    adam_xyz_path = os.path.join(result_dir, 'adam.obj')
+    adam_xyz_name = 'ADAM'
+    files_helper.save_obj(adam_xyz_name, adam_xyz_path, adam_chromosome_after_mds.points)
 except Exception as e:
     print('Cannot save images: {0}'.format(e))

@@ -90,6 +90,39 @@ def save_3d_plot_dep(name: str, path: str, points):
     plt.clf()
     return
 
+
+def save_obj(name: str, path: str, points):
+    scale = 10
+    file = open(path, 'w')
+    for point in points:
+        file.write('v {} {} {}'.format(point[0] * scale, point[1] * scale, point[2] * scale))
+        file.write('\n')
+    file.write('cstype cardinal\n')
+    file.write('deg 3\n')
+    file.write('curv 0.000000 3.000000 ')
+    for i in range(1, points.shape[0]):
+        file.write('{} '.format(str(i)))
+    file.write('\n')
+    file.write('parm u 0.000000 1.000000 2.000000 3.000000\n')
+    file.write('end\n')
+    file.close()
+    return
+
+
+def save_xyz(name: str, path: str, points):
+    scale = 10
+    file = open(path, 'w')
+    file.write(str(points.shape[0]))
+    file.write('\n')
+    file.write(name)
+    file.write('\n')
+    for point in points:
+        file.write('H {} {} {}'.format(point[0] * scale, point[1] * scale, point[2] * scale))
+        file.write('\n')
+    file.close()
+    return
+
+
 def save_3d_plot(name: str, path: str, points):
     xs = np.array(points[:, 0])
     ys = np.array(points[:, 1])
